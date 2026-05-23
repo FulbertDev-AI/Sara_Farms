@@ -1,31 +1,12 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const trigger = document.querySelector('.nav-toggle');
-    const menu = document.querySelector('.navbar');
+document.addEventListener('DOMContentLoaded', () => {
+    // Mobile menu toggle
+    const menuBtn = document.querySelector('.mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+    if(menuBtn) menuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-    if (trigger && menu) {
-        trigger.addEventListener('click', function () {
-            menu.classList.toggle('navbar-open');
-        });
-    }
-
-    const forms = document.querySelectorAll('form[data-validate]');
-    forms.forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-            const inputs = Array.from(form.querySelectorAll('input[required], textarea[required], select[required]'));
-            let valid = true;
-
-            inputs.forEach(function (input) {
-                if (!input.value.trim()) {
-                    valid = false;
-                    input.classList.add('input-invalid');
-                } else {
-                    input.classList.remove('input-invalid');
-                }
-            });
-
-            if (!valid) {
-                event.preventDefault();
-            }
-        });
-    });
+    // Scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('animate'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.card, .hero-content').forEach(el => observer.observe(el));
 });
