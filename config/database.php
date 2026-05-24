@@ -4,13 +4,17 @@ class Database {
     private $pdo;
 
     private function __construct() {
-        $dsn = "mysql:host=127.0.0.1;dbname=ferme_agricole;charset=utf8mb4";
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
         ];
-        $this->pdo = new PDO($dsn, 'root', '', $options);
+        try {
+            $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        } catch (PDOException $e) {
+            die("Erreur connexion BDD: " . $e->getMessage());
+        }
     }
 
     public static function getInstance() {

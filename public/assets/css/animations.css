@@ -1,0 +1,27 @@
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.animate-fade { animation: fadeIn 0.5s ease-out forwards; }
+.animate-fade-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+.animate-slide { animation: slideInLeft 0.4s ease-out forwards; }
+.animate-pulse { animation: pulse 2s infinite; }
+
+.hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.hover-lift:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }

@@ -1,0 +1,32 @@
+/* Effets Glassmorphism réutilisables */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+.glass-card {
+    @extend .glass-panel;
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-color: rgba(136, 176, 75, 0.3);
+}
+.glass-input {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    backdrop-filter: blur(4px);
+    transition: border-color 0.3s;
+}
+.glass-input:focus {
+    outline: none;
+    border-color: #88B04B;
+    background: rgba(255, 255, 255, 0.8);
+}
