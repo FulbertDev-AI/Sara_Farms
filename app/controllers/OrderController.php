@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../core/Controller.php';
 require_once __DIR__ . '/../models/Order.php';
 require_once __DIR__ . '/../models/OrderItem.php';
+require_once __DIR__ . '/../../includes/functions.php';
 
 class OrderController extends Controller {
     public function index() {
@@ -32,6 +33,37 @@ class OrderController extends Controller {
             flashMessage('info', 'Commande annulée.');
         }
         $this->redirect('orders');
+    }
+
+    public function confirmMobileMoneyPayment($id) {
+        $this->authRequired();
+        if($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->redirect("orders/detail/$id");
+        }
+
+        $orderModel = new Order();
+        $order = $orderModel->findById($id);
+
+        // Vérifier la propriété de la commande
+        if(!$order || $order['user_id'] != $_SESSION['user_id']) {
+            flashMessage('error', 'Commande non trouvée.');
+            $this->redirect('orders');
+        }
+
+        $mobileMoneyRef = $_POST['mobile_money_reference'] ?? '';
+        if(!$mobileMoneyRef) {
+            flashMessage('error', 'Veuillez entrer le numéro de transaction Mobile Money.');
+            $this->redirect("orders/detail/$id");
+        }
+
+        // Mise à jour du statut de paiement
+        $this->db->query(
+            "UPDATE orders SET mobile_money_reference = ?, payment_status = 'completed' WHERE id = ?",
+            [$mobileMoneyRef, $id]
+        );
+
+        flashMessage('success', 'Paiement confirmé! Nous vérifierons votre transaction et vous contacterons.');
+        $this->redirect("orders/detail/$id");
     }
 }
 ?>

@@ -25,12 +25,15 @@ class Dashboard extends Model {
     public function getMonthlyBalance($month, $year) {
         $data = $this->query("
             SELECT 
-                SUM(CASE WHEN type_transaction = 'revenu' THEN montant ELSE 0 END) as revenus,
-                SUM(CASE WHEN type_transaction = 'depense' THEN montant ELSE 0 END) as depenses
+                COALESCE(SUM(CASE WHEN type_transaction = 'revenu' THEN montant ELSE 0 END), 0) as revenus,
+                COALESCE(SUM(CASE WHEN type_transaction = 'depense' THEN montant ELSE 0 END), 0) as depenses
             FROM financial_records 
             WHERE MONTH(date_transaction) = ? AND YEAR(date_transaction) = ?
         ", [$month, $year])->fetch();
 
+        if (!$data) {
+            $data = ['revenus' => 0, 'depenses' => 0];
+        }
         $data['benefice'] = $data['revenus'] - $data['depenses'];
         return $data;
     }

@@ -1,4 +1,5 @@
 <?php require_once __DIR__ . '/../../../config/constants.php'; ?>
+<?php require_once __DIR__ . '/../../../includes/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,6 +9,12 @@
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/main.css">
 </head>
 <body>
+    <?php if(isset($_SESSION['flash'])): ?>
+<div style="background:var(--secondary);color:#fff;padding:1rem;text-align:center;position:fixed;top:0;left:0;width:100%;z-index:1000;">
+    <?= htmlspecialchars($_SESSION['flash']['message']) ?>
+    <?php unset($_SESSION['flash']); ?>
+</div>
+<?php endif; ?>
     <header class="glass">
         <div class="container">
             <nav>
@@ -31,3 +38,4 @@
             </nav>
         </div>
     </header>
+    

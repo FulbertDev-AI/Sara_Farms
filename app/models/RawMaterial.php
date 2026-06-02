@@ -12,7 +12,7 @@ class RawMaterial extends Model {
 
     public function create($data) {
         $sql = "INSERT INTO raw_materials (nom, categorie, stock_actuel, seuil_alerte) VALUES (?, ?, ?, ?)";
-        $this->query($sql, [$data['nom'], $data['cat'], $data['stock'], $data['seuil']]);
+        $this->query($sql, [$data['nom'], $data['categorie'] ?? null, $data['stock'], $data['seuil']]);
         return true;
     }
 

@@ -2,8 +2,8 @@
 require_once __DIR__ . '/../../core/Model.php';
 
 class Order extends Model {
-    public function create($userId, $total) {
-        $this->query("INSERT INTO orders (user_id, total_amount) VALUES (?, ?)", [$userId, $total]);
+    public function create($userId, $total, $paymentMethod = 'livraison') {
+        $this->query("INSERT INTO orders (user_id, total_amount, payment_method) VALUES (?, ?, ?)", [$userId, $total, $paymentMethod]);
         return $this->db->lastInsertId();
     }
 
@@ -25,11 +25,17 @@ class Order extends Model {
     }
 
     public function findById($id) {
-        return $this->query("SELECT * FROM orders WHERE id = ? LIMIT 1", [$id])->fetch();
+        return $this->query(
+            "SELECT o.*, u.nom, u.prenom FROM orders o JOIN users u ON o.user_id = u.id WHERE o.id = ? LIMIT 1",
+            [$id]
+        )->fetch();
     }
 
     public function getItemsByOrderId($orderId) {
-        return $this->query("SELECT oi.*, p.nom FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?", [$orderId])->fetchAll();
+        return $this->query(
+            "SELECT oi.*, p.nom AS product_name FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?",
+            [$orderId]
+        )->fetchAll();
     }
 
     public function updateStatus($id, $status, $motif = null) {

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../core/Controller.php';
+require_once __DIR__ . '/../../../core/Controller.php';
 require_once __DIR__ . '/../../models/Order.php';
 require_once __DIR__ . '/../../models/Product.php';
 require_once __DIR__ . '/../../models/FinancialRecord.php';
@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../models/StockMovement.php';
 
 class OrderManagementController extends Controller {
     public function __construct() {
+        parent::__construct();
         $this->adminRequired();
     }
 

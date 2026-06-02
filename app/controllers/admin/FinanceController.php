@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../core/Controller.php';
+require_once __DIR__ . '/../../../core/Controller.php';
 require_once __DIR__ . '/../../models/Dashboard.php';
 
 class FinanceController extends Controller {
@@ -13,9 +13,16 @@ class FinanceController extends Controller {
         $year = $_GET['year'] ?? date('Y');
 
         $model = new Dashboard();
-        $balance = $model->getMonthlyBalance($month, $year);
+        $balance = $model->getMonthlyBalance($month, $year) ?: [];
 
-        // Calcul du taux (ex: 20%)
+        $balance = array_merge([
+            'revenus' => 0,
+            'depenses' => 0,
+            'benefice' => 0,
+            'taux' => 0
+        ], $balance);
+
+        $balance['benefice'] = $balance['revenus'] - $balance['depenses'];
         $balance['taux'] = $balance['revenus'] > 0 ? (($balance['benefice'] / $balance['revenus']) * 100) : 0;
 
         $this->view('admin/finance/index', [

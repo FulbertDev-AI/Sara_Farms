@@ -20,4 +20,8 @@ function statusBadge($status) {
 function formatDate($datetime) {
     return date('d/m/Y H:i', strtotime($datetime));
 }
+
+function formatPrice($price) {
+    return number_format($price, 0, ',', ' ') . ' FCFA';
+}
 ?>

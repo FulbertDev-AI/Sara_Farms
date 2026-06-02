@@ -1,4 +1,6 @@
-<?php require_once __DIR__ . '/../../../../config/constants.php'; ?>
+<?php require_once __DIR__ . '/../../../config/constants.php'; ?>
+<?php require_once __DIR__ . '/../../../includes/functions.php'; ?>
+<?php require_once __DIR__ . '/../../../includes/helpers.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

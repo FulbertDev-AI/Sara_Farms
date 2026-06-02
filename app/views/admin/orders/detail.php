@@ -1,13 +1,19 @@
 <?php require_once __DIR__ . '/../../layouts/admin-header.php'; ?>
-<div class="glass-panel" style="padding:2rem;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
+<div class="glass-panel order-detail-panel" style="padding:2rem;">
+    <div class="order-detail-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
         <h2>Commande #<?= $order['id'] ?></h2>
         <?= statusBadge($order['status']) ?>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;">
         <div>
             <h4>Client</h4>
-            <p><?= htmlspecialchars($order['prenom'] . ' ' . $order['nom']) ?></p>
+            <p>
+                <?= htmlspecialchars(
+                    trim(
+                        ($order['prenom'] ?? '') . ' ' . ($order['nom'] ?? '')
+                    ) ?: 'Client inconnu'
+                ) ?>
+            </p>
             <p><?= formatDate($order['created_at']) ?></p>
         </div>
         <div>
@@ -20,7 +26,12 @@
         <thead><tr><th>Produit</th><th>Qté</th><th>Prix unit.</th><th>Total</th></tr></thead>
         <tbody>
             <?php foreach($items as $i): ?>
-            <tr><td><?= htmlspecialchars($i['product_name']) ?></td><td><?= $i['quantite'] ?></td><td><?= formatPrice($i['prix_unitaire']) ?></td><td><?= formatPrice($i['quantite']*$i['prix_unitaire']) ?></td></tr>
+            <tr>
+                <td data-label="Produit"><?= htmlspecialchars($i['product_name'] ?? 'Produit inconnu') ?></td>
+                <td data-label="Qté"><?= isset($i['quantite']) ? $i['quantite'] : '—' ?></td>
+                <td data-label="Prix unit."><?= formatPrice($i['prix_unitaire'] ?? 0) ?></td>
+                <td data-label="Total"><?= formatPrice((isset($i['quantite']) ? $i['quantite'] : 0) * ($i['prix_unitaire'] ?? 0)) ?></td>
+            </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
@@ -41,4 +52,42 @@
     </div>
     <?php endif; ?>
 </div>
+<style>
+@media (max-width: 768px) {
+    .order-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .order-detail-panel {
+        padding: 1rem;
+    }
+    .order-detail-panel table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .order-detail-panel table thead,
+    .order-detail-panel table tbody,
+    .order-detail-panel table tr,
+    .order-detail-panel table th,
+    .order-detail-panel table td {
+        display: block;
+    }
+    .order-detail-panel table tr { margin-bottom: 1rem; }
+    .order-detail-panel table th { display: none; }
+    .order-detail-panel table td {
+        padding: 0.75rem 0;
+        border: none;
+        position: relative;
+    }
+    .order-detail-panel table td::before {
+        content: attr(data-label);
+        font-weight: 700;
+        display: block;
+        margin-bottom: 0.3rem;
+    }
+}
+</style>
 <?php require_once __DIR__ . '/../../layouts/admin-footer.php'; ?>

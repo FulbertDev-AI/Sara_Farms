@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../layouts/admin-header.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/admin-header.php'; ?>
 
 <!-- Alertes Stock -->
 <?php if (!empty($alerts)): ?>
@@ -32,7 +32,7 @@
     <div class="stat-card">
         <h4>Total Clients</h4>
         <div class="value"><?= $totalClients ?></div>
-        <div class="trend">👥 Inscrits depuis le début</div>
+        <div class="trend">Inscrits depuis le début</div>
     </div>
 </div>
 
@@ -133,4 +133,4 @@ new Chart(catCtx, {
 });
 </script>
 
-<?php require_once __DIR__ . '/../layouts/admin-footer.php'; ?>
+<?php require_once __DIR__ . '/../../layouts/footer.php'; ?>

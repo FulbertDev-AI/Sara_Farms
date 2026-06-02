@@ -10,16 +10,19 @@ class User extends Model {
         return $this->query("SELECT * FROM users WHERE id = ? LIMIT 1", [$id])->fetch();
     }
 
-    public function create($nom, $prenom, $email, $password, $tel = '') {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO users (nom, prenom, email, password, telephone) VALUES (?, ?, ?, ?, ?)";
-        try {
-            $this->query($sql, [$nom, $prenom, $email, $hash, $tel]);
-            return true;
-        } catch (PDOException $e) {
-            return false;
-        }
+    // Dans app/models/User.php
+public function create($nom, $prenom, $email, $password, $tel = '') {
+    $hash = password_hash($password, PASSWORD_DEFAULT);
+    try {
+        $this->query(
+            "INSERT INTO users (nom, prenom, email, password, telephone) VALUES (?, ?, ?, ?, ?)",
+            [$nom, $prenom, $email, $hash, $tel]
+        );
+        return true;
+    } catch (PDOException $e) {
+        return false;
     }
+}
 
     public function countTotalClients() {
         return $this->query("SELECT COUNT(*) as total FROM users WHERE role = 'client'")->fetch()['total'];

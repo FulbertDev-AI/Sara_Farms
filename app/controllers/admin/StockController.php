@@ -1,11 +1,12 @@
 <?php
-require_once __DIR__ . '/../../core/Controller.php';
+require_once __DIR__ . '/../../../core/Controller.php';
 require_once __DIR__ . '/../../models/RawMaterial.php';
 require_once __DIR__ . '/../../models/StockMovement.php';
 require_once __DIR__ . '/../../models/FinancialRecord.php';
 
 class StockController extends Controller {
     public function __construct() {
+        parent::__construct();
         $this->adminRequired();
     }
 
