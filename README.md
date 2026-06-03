@@ -6,7 +6,8 @@
 
 <a id="fr"></a>
 
-Plateforme e-commerce web pour la **vente de produits agricoles** et de **services agronomiques** avec gestion complète du catalogue, panier, commandes, paiements mobiles, suivi des stocks, gestion financière et administration avancée.
+Sara Farms est une application web complète de **gestion et de commercialisation pour une exploitation agricole moderne**. Développée selon une architecture MVC (Model-View-Controller) rigoureuse, elle permet à la fois aux clients d'acheter des produits agricoles en ligne et aux administrateurs de gérer l'ensemble des opérations de la ferme : **stocks, commandes, finances et intrants.**
+Le projet met l'accent sur une expérience utilisateur professionnelle avec un design glassmorphism épuré, des animations fluides, et une interface entièrement responsive adaptée aux smartphones et tablettes.
 
 ## Sommaire
 
@@ -71,10 +72,10 @@ Le projet est conçu pour un usage réel: workflow par rôle, restrictions d'acc
 
 ### 4) Paiements
 
-- **Mode 1 (Livraison)**: paiement à la livraison (credit).
+- **Mode 1 (Livraison)**: paiement à la livraison (credit). 
 - **Mode 2 (Mobile Money)**: paiement mobile avec référence de transaction.
 - Statut paiement tracké: `pending` → `completed` ou `failed`.
-- Workflow indépendant selon mode.
+- Workflow indépendant selon mode. (Mais pas encore implémenté)
 
 ### 5) Gestion des commandes
 
@@ -174,12 +175,16 @@ flowchart LR
 
 Voici un aperçu visuel :
 
-![Accueil](docs/images/home.png)
-![Boutique](docs/images/shop.png)
-![Panier](docs/images/cart.png)
-![Dashboard Admin](docs/images/admin-dashboard.png)
-![Gestion Commandes](docs/images/admin-orders.png)
-![Gestion Stocks](docs/images/admin-stock.png)
+![Accueil](docs/images/Accueil.png)
+![Boutique](docs/images/boutique.png)
+![Panier](docs/images/panier.png)
+![Dashboard Admin](docs/images/admin1.png)
+![Dashboard Admin](docs/images/admin2.png)
+![Dashboard Admin](docs/images/admin3.png)
+![Gestion Commandes](docs/images/gestion-commandes.png)
+![Gestion Stocks](docs/images/gestion-intrants-stock.png)
+![Gestion Produits](docs/images/gestion-produits.png)
+![Gestion Stocks](docs/images/bilan-financier.png)
 
 ---
 
@@ -199,18 +204,18 @@ Voici un aperçu visuel :
 git clone https://github.com/votre-org/sara_farms.git
 cd Sara_Farms
 
-# 2) Copier fichiers config (si nécessaire)
-# Vérifier config/database.php, config/constants.php
+2) Copier fichiers config (si nécessaire)
+Vérifier config/database.php, config/constants.php
 
-# 3) Importer la base de données
-# Créer database sara_farms dans MySQL
+3) Importer la base de données
+Créer database sara_farms dans MySQL
 mysql -u root -p < database/schema.sql
 
-# 4) Placer dans répertoire WAMP
-# Copier dossier Sara_Farms vers: C:\wamp64\www\Sara_Farms
+ 4) Placer dans répertoire WAMP
+Copier dossier Sara_Farms vers: C:\wamp64\www\Sara_Farms
 
-# 5) Accéder l'application
-# http://localhost/sara_farms/public/
+5) Accéder l'application
+http://localhost/sara_farms/public/
 ```
 
 Application disponible sur:
@@ -260,25 +265,25 @@ session_set_cookie_params([
 ### Option simple
 
 ```bash
-# 1) Terminal 1: MySQL (via WAMP control panel ou:)
-# mysqld.exe (si en ligne de commande)
+1) Terminal 1: MySQL (via WAMP control panel ou:)
+mysqld.exe (si en ligne de commande)
 
-# 2) Terminal 2: Serveur Apache (via WAMP control panel)
-# httpd.exe (si en ligne de commande)
+2) Terminal 2: Serveur Apache (via WAMP control panel)
+httpd.exe (si en ligne de commande)
 
-# 3) Ouvrir navigateur
+3) Ouvrir navigateur
 http://localhost/sara_farms/public/
 ```
 
 ### Vérification l'appli
 
 ```bash
-# Test connexion DB
+Test connexion DB
 php test.php
 
-# Devrait afficher:
-# ✓ Base de données connectée
-# ✓ Tables présentes
+Devrait afficher:
+✓ Base de données connectée
+✓ Tables présentes
 ```
 
 ---
@@ -355,7 +360,7 @@ Password: Test1234!
 Role: client (auto)
 ---
 Email: admin@sara-farms.com
-Password: AdminPass123!
+Password: password
 Role: admin (à modifier en DB après creation)
 ```
 
@@ -532,6 +537,180 @@ Résultat attendu:
 ✓ Connexion à la base de données réussie!
 ✓ Tables présentes et accessibles.
 ```
+### Tests généraux de toute l'application
+
+Ouvrez votre navigateur et allez à:
+
+```bash
+http://localhost/Sara_Farms/test.php
+```
+
+## 📊 Ce que vous verrez si TOUS LES TESTS RÉUSSISSENT
+
+### En haut de la page (HTML formaté):
+
+```
+🧪 SARA FARMS - RAPPORT COMPLET DE TESTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 Instructions d'exécution:
+1. Accédez à l'URL: http://localhost/Sara_Farms/test.php
+2. Vérifiez que tous les tests passent (les cases ✅ doivent être vertes)
+3. En cas d'erreur ❌, vérifiez les configurations et les données d'entrée
+```
+
+### Sections de test (une par une):
+
+#### 📁 1. TESTS DE STRUCTURE & CONFIGURATION
+```
+✅ Fichier config/constants.php existe
+✅ Fichier config/database.php existe
+✅ Core Controller existe
+✅ Core Model existe
+✅ AuthController existe
+✅ CartController existe
+✅ OrderController existe
+✅ ProductController admin existe
+✅ StockController admin existe
+✅ OrderManagementController admin existe
+✅ Schema SQL existe
+```
+
+#### 🗄️ 2. TESTS DE CONNEXION BASE DE DONNÉES
+```
+✅ Connexion PDO établie
+✅ Table `users` existe
+✅ Table `products` existe
+✅ Table `orders` existe
+✅ Table `order_items` existe
+✅ Table `raw_materials` existe
+✅ Table `financial_records` existe
+✅ Table `stock_movements` existe
+✅ Table `contact_messages` existe
+```
+
+#### 🔐 3. TESTS DE SESSIONS & AUTHENTIFICATION
+```
+✅ Session active
+✅ Écriture session
+✅ Création utilisateur (registre)
+✅ Vérification utilisateur créé
+✅ Mot de passe hashé correctement
+✅ Rejet email en doublon
+✅ Recherche utilisateur par ID
+```
+
+#### 📦 4. TESTS DE PRODUITS
+```
+✅ Création produit
+✅ Récupération tous les produits
+✅ Recherche produit par ID
+✅ Modification produit
+✅ Décrémentation stock produit
+✅ Soft delete produit (is_active=0)
+```
+
+#### 🛒 5. TESTS DE PANIER
+```
+✅ Ajout produit au panier
+✅ Mise à jour quantité panier
+✅ Suppression produit du panier
+✅ Calcul total panier
+```
+
+#### 📋 6. TESTS DE COMMANDES
+```
+✅ Création commande
+✅ Ajout items à commande
+✅ Recherche commande par ID
+✅ Statut initial commande
+✅ Récupération commandes utilisateur
+```
+
+#### 👨‍💼 7. TESTS DE GESTION DE COMMANDES ADMIN
+```
+✅ Validation commande par admin
+✅ Rejet commande par admin
+```
+
+#### 🌾 8. TESTS DE MATIÈRES PREMIÈRES & STOCK
+```
+✅ Création matière première
+✅ Récupération matières premières
+✅ Recherche matière première par ID
+✅ Décrémentation stock matière première
+✅ Récupération alertes bas stock
+```
+
+#### 📊 9. TESTS DE MOUVEMENTS DE STOCK
+```
+✅ Enregistrement mouvement stock
+✅ Récupération mouvements stock
+```
+
+#### 💰 10. TESTS DE FINANCES & RAPPORTS
+```
+✅ Enregistrement revenu
+✅ Enregistrement dépense
+✅ Calcul bilan mensuel
+✅ Calcul revenu journalier
+✅ Calcul marge bénéficiaire
+```
+
+#### 🔒 11. TESTS DE PERMISSIONS & SÉCURITÉ
+```
+✅ Création utilisateur avec rôle client par défaut
+✅ Utilisateur admin existe
+✅ Hachage de mot de passe bcrypt
+✅ Rejet mot de passe incorrect
+```
+
+#### ✅ 12. TESTS DE VALIDATION & SANITISATION
+```
+✅ Protection XSS (htmlspecialchars)
+✅ Validation email correct
+✅ Rejet email invalide
+✅ Validation nombre entier
+```
+
+#### 🔄 13. TESTS D'INTÉGRITÉ DES TRANSACTIONS
+```
+✅ Intégrité transaction commande
+```
+
+#### 🔗 14. TESTS DES MODÈLES & ASSOCIATIONS
+```
+✅ Relation 1-N User→Orders
+✅ Relation 1-N Order→OrderItems
+```
+
+#### ⚠️ 15. TESTS DE CAS LIMITES
+```
+✅ Quantité négative dans panier (doit être >= 1)
+✅ Email avec caractères spéciaux valide
+```
+
+#### 📈 16. TESTS DE COMPTE RENDU
+```
+✅ Comptage total clients
+✅ Récupération toutes les commandes
+✅ Statut commandes dernières 24h
+```
+
+### Résumé Final (en bas de page):
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 Résumé Final
+
+✅ Réussis: 95/95
+❌ Échoués: 0/95
+📈 Taux de réussite: 100%
+
+TOUS LES TESTS SONT PASSÉS AVEC SUCCÈS!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
 
 ### Validation code
 
@@ -554,7 +733,7 @@ find app -name "*.php" -exec php -l {} \;
 
 ---
 
-## Roadmap
+<!-- ## Roadmap
 
 ### Phase 1 (Terminé)
 - [x] Catalogue produits dynamique
@@ -583,7 +762,7 @@ find app -name "*.php" -exec php -l {} \;
 - [ ] SMS Mobile Money notifications
 - [ ] Multi-langue i18n (FR/EN)
 
----
+--- -->
 
 ## Contribution
 
